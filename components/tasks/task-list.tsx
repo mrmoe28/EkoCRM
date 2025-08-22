@@ -72,7 +72,7 @@ export function TaskList({ tasks, onAddTask, onEditTask, onDeleteTask, onComplet
             <option value="completed">Completed</option>
             <option value="cancelled">Cancelled</option>
           </select>
-          <Button onClick={onAddTask}>
+          <Button variant="orange" onClick={onAddTask}>
             <Plus className="h-4 w-4 mr-2" />
             Add Task
           </Button>
@@ -146,7 +146,7 @@ export function TaskList({ tasks, onAddTask, onEditTask, onDeleteTask, onComplet
       {filteredTasks.length === 0 && (
         <div className="text-center py-12">
           <p className="text-muted-foreground">No tasks found.</p>
-          <Button onClick={onAddTask} className="mt-4">
+          <Button variant="orange" onClick={onAddTask} className="mt-4">
             <Plus className="h-4 w-4 mr-2" />
             Add Your First Task
           </Button>

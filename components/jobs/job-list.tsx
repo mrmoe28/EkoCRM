@@ -239,7 +239,7 @@ export function JobList({
             <option value="completed">Completed</option>
             <option value="cancelled">Cancelled</option>
           </select>
-          <Button onClick={onAddJob}>
+          <Button variant="orange" onClick={onAddJob}>
             <Plus className="h-4 w-4 mr-2" />
             Add Job
           </Button>
@@ -253,7 +253,7 @@ export function JobList({
       {filteredJobs.length === 0 && (
         <div className="text-center py-12">
           <p className="text-muted-foreground">No jobs found.</p>
-          <Button onClick={onAddJob} className="mt-4">
+          <Button variant="orange" onClick={onAddJob} className="mt-4">
             <Plus className="h-4 w-4 mr-2" />
             Add Your First Job
           </Button>
