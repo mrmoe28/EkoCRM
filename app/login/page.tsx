@@ -18,6 +18,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [isRedirecting, setIsRedirecting] = useState(false)
   const { login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,10 +28,11 @@ export default function LoginPage() {
 
     try {
       await login(formData.email, formData.password)
+      setIsRedirecting(true)
       // Redirect is handled by auth context
     } catch (error) {
+      console.error('Login error:', error)
       setError((error as Error).message || 'Login failed')
-    } finally {
       setIsLoading(false)
     }
   }
@@ -139,10 +141,15 @@ export default function LoginPage() {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={isLoading}
+              disabled={isLoading || isRedirecting}
               variant="gradient-sunset"
             >
-              {isLoading ? (
+              {isRedirecting ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Redirecting to dashboard...
+                </>
+              ) : isLoading ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                   Signing in...

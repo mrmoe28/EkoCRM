@@ -35,13 +35,18 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get('auth-token')?.value
   
+  // Debug logging
+  console.log(`🔍 [Middleware] Request to: ${pathname}`)
+  console.log(`🍪 [Middleware] Has token: ${!!token}`)
+  
   // Single token verification for performance
   let userPayload: any = null
   if (token) {
     try {
       userPayload = verifyToken(token)
+      console.log(`✅ [Middleware] Token valid for user: ${userPayload?.email}`)
     } catch (error) {
-      console.error('Token verification failed:', error)
+      console.error('❌ [Middleware] Token verification failed:', error)
     }
   }
   
@@ -49,6 +54,7 @@ export function middleware(request: NextRequest) {
   
   // Redirect authenticated users away from auth pages
   if (isAuthenticated && (pathname === '/login' || pathname === '/signup')) {
+    console.log(`🔄 [Middleware] Redirecting authenticated user from ${pathname} to dashboard`)
     return NextResponse.redirect(new URL('/', request.url))
   }
   
@@ -69,6 +75,7 @@ export function middleware(request: NextRequest) {
   // Check authentication for protected paths
   if (protectedPaths.some(path => pathname.startsWith(path))) {
     if (!token || !userPayload) {
+      console.log(`🚫 [Middleware] Unauthenticated access to protected route: ${pathname}`)
       // Redirect to login for protected routes
       const loginUrl = new URL('/login', request.url)
       loginUrl.searchParams.set('redirect', pathname)
@@ -76,6 +83,7 @@ export function middleware(request: NextRequest) {
       
       // Clear invalid token if present
       if (token && !userPayload) {
+        console.log(`🗑️ [Middleware] Clearing invalid token`)
         response.cookies.delete('auth-token')
       }
       
