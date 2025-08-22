@@ -84,6 +84,8 @@ export default function JobsPage() {
               onAddJob={handleAddJob}
               onEditJob={handleEditJob}
               onDeleteJob={handleDeleteJob}
+              viewType={currentView}
+              searchTerm={searchTerm}
             />
           </div>
         </>

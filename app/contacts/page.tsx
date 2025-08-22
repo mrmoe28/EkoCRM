@@ -79,6 +79,8 @@ export default function ContactsPage() {
               contacts={contacts}
               onAddContact={handleAddContact}
               onEditContact={handleEditContact}
+              viewType={currentView}
+              searchTerm={searchTerm}
             />
           </div>
         </>
