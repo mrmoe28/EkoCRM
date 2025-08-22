@@ -266,7 +266,7 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                       <Clock className="h-3 w-3 text-accent-purple" />
                       {formatDate(schedule.date)} at {schedule.startTime}
                     </div>
-                    <Badge className={getTypeColor(schedule.type || 'site_visit')} size="sm">
+                    <Badge className={getTypeColor(schedule.type || 'site_visit')}>
                       {schedule.type?.replace('_', ' ') || 'Site Visit'}
                     </Badge>
                   </div>

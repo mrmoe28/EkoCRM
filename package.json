@@ -7,8 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "build:analyze": "ANALYZE=true npm run build",
+    "build:production": "npm run lint && npm run type-check && npm run build",
+    "build:deploy": "IGNORE_TS_ERRORS=true IGNORE_ESLINT_ERRORS=true npm run build",
+    "preview": "npm run build && npm run start",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "postinstall": "npm run db:generate",
+    "clean": "rm -rf .next && rm -rf node_modules/.cache"
   },
   "dependencies": {
     "@libsql/client": "^0.12.0",
