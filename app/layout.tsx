@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { Navigation } from '@/components/navigation'
+import { ConditionalLayout } from '@/components/conditional-layout'
 import { ThemeProvider } from '@/lib/theme-provider'
 import { AuthProvider } from '@/lib/auth-context'
 
@@ -27,12 +27,9 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <AuthProvider>
-            <div className="min-h-screen bg-background theme-transition">
-              <Navigation />
-              <main className="container mx-auto px-4 py-6">
-                {children}
-              </main>
-            </div>
+            <ConditionalLayout>
+              {children}
+            </ConditionalLayout>
           </AuthProvider>
         </ThemeProvider>
       </body>

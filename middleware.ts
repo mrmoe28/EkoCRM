@@ -35,8 +35,17 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get('auth-token')?.value
   
-  // Check if user is authenticated
-  const isAuthenticated = token && verifyToken(token)
+  // Single token verification for performance
+  let userPayload: any = null
+  if (token) {
+    try {
+      userPayload = verifyToken(token)
+    } catch (error) {
+      console.error('Token verification failed:', error)
+    }
+  }
+  
+  const isAuthenticated = !!userPayload
   
   // Redirect authenticated users away from auth pages
   if (isAuthenticated && (pathname === '/login' || pathname === '/signup')) {
@@ -59,19 +68,17 @@ export function middleware(request: NextRequest) {
   
   // Check authentication for protected paths
   if (protectedPaths.some(path => pathname.startsWith(path))) {
-    if (!token) {
+    if (!token || !userPayload) {
       // Redirect to login for protected routes
       const loginUrl = new URL('/login', request.url)
       loginUrl.searchParams.set('redirect', pathname)
-      return NextResponse.redirect(loginUrl)
-    }
-    
-    // Verify token (reuse from above if already checked)
-    const userPayload = isAuthenticated || verifyToken(token)
-    if (!userPayload) {
-      // Invalid token, redirect to login
-      const response = NextResponse.redirect(new URL('/login', request.url))
-      response.cookies.delete('auth-token')
+      const response = NextResponse.redirect(loginUrl)
+      
+      // Clear invalid token if present
+      if (token && !userPayload) {
+        response.cookies.delete('auth-token')
+      }
+      
       return response
     }
     

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/auth-context'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -18,7 +18,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
-  const router = useRouter()
+  const { login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,25 +26,10 @@ export default function LoginPage() {
     setError('')
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        // Small delay to ensure cookie is set
-        setTimeout(() => {
-          router.push('/')
-          router.refresh()
-        }, 100)
-      } else {
-        setError(data.error || 'Login failed')
-      }
+      await login(formData.email, formData.password)
+      // Redirect is handled by auth context
     } catch (error) {
-      setError('Network error. Please try again.')
+      setError((error as Error).message || 'Login failed')
     } finally {
       setIsLoading(false)
     }

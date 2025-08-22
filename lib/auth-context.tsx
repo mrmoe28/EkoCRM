@@ -24,11 +24,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (response.ok) {
         const data = await response.json()
         setUser(data.user)
+        console.log('✅ Session validated for user:', data.user.email)
+      } else if (response.status === 401) {
+        // Unauthorized - clear any stale auth state
+        setUser(null)
+        console.log('🔒 Session expired or invalid')
       } else {
         setUser(null)
+        console.error('❌ Session check failed with status:', response.status)
       }
     } catch (error) {
-      console.error('Session check failed:', error)
+      console.error('❌ Session check network error:', error)
       setUser(null)
     } finally {
       setIsLoading(false)
@@ -49,15 +55,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const data = await response.json()
     setUser(data.user)
+    console.log('✅ Login successful for user:', data.user.email)
+    
+    // Handle redirect after state update
+    setTimeout(() => {
+      console.log('🔄 Redirecting to dashboard...')
+      window.location.href = '/'
+    }, 100)
   }
 
   const logout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' })
+      console.log('✅ Logout successful')
     } catch (error) {
-      console.error('Logout error:', error)
+      console.error('❌ Logout error:', error)
     } finally {
       setUser(null)
+      console.log('🔄 Redirecting to login...')
       window.location.href = '/login'
     }
   }
@@ -67,19 +82,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const updateUser = async (userData: Partial<User>) => {
-    const response = await fetch('/api/auth/update-profile', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData)
-    })
+    try {
+      const response = await fetch('/api/auth/update-profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      })
 
-    if (!response.ok) {
+      if (!response.ok) {
+        const data = await response.json()
+        console.error('❌ Profile update failed:', data.error)
+        throw new Error(data.error || 'Profile update failed')
+      }
+
       const data = await response.json()
-      throw new Error(data.error || 'Profile update failed')
+      setUser(data.user)
+      console.log('✅ Profile updated successfully for user:', data.user.email)
+    } catch (error) {
+      console.error('❌ Profile update error:', error)
+      throw error
     }
-
-    const data = await response.json()
-    setUser(data.user)
   }
 
   useEffect(() => {

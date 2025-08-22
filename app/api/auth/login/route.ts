@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
       .limit(1)
 
     if (!user) {
+      console.log('❌ Login attempt with non-existent email:', email)
       return NextResponse.json(
         { error: 'Invalid email or password' },
         { status: 401 }
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
     // Verify password
     const isValidPassword = await verifyPassword(password, user.password)
     if (!isValidPassword) {
+      console.log('❌ Login attempt with incorrect password for email:', email)
       return NextResponse.json(
         { error: 'Invalid email or password' },
         { status: 401 }
@@ -46,6 +48,8 @@ export async function POST(request: NextRequest) {
 
     // Create response with user data (excluding password)
     const { password: _, ...userWithoutPassword } = user
+    console.log('✅ Login successful for user:', user.email)
+    
     const response = NextResponse.json({
       success: true,
       user: userWithoutPassword,
