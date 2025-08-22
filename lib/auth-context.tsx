@@ -9,6 +9,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
   refresh: () => Promise<void>
+  updateUser: (userData: Partial<User>) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -65,12 +66,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await checkSession()
   }
 
+  const updateUser = async (userData: Partial<User>) => {
+    const response = await fetch('/api/auth/update-profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    })
+
+    if (!response.ok) {
+      const data = await response.json()
+      throw new Error(data.error || 'Profile update failed')
+    }
+
+    const data = await response.json()
+    setUser(data.user)
+  }
+
   useEffect(() => {
     checkSession()
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, refresh }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout, refresh, updateUser }}>
       {children}
     </AuthContext.Provider>
   )

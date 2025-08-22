@@ -69,7 +69,7 @@ export function ProfileDropdown() {
   }
 
   const menuItems = [
-    { icon: User, label: 'My Profile', onClick: () => console.log('Profile') },
+    { icon: User, label: 'My Profile', onClick: () => window.location.href = '/profile' },
     { icon: Palette, label: 'Appearance', onClick: () => window.location.href = '/themes' },
     { icon: Bell, label: 'Notifications', onClick: () => console.log('Notifications') },
     { icon: Shield, label: 'Privacy & Security', onClick: () => console.log('Security') },
