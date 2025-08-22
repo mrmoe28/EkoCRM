@@ -11,7 +11,7 @@ const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL ||
 
 const client = postgres(connectionString, {
   prepare: false,
-  ssl: process.env.NODE_ENV === 'production' ? 'require' : false,
+  ssl: connectionString.includes('neon.tech') ? 'require' : false,
 })
 
 export const db = drizzle(client, { 

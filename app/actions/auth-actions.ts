@@ -14,7 +14,7 @@ export async function redirectToLogin() {
 }
 
 export async function checkAuthAndRedirect() {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const token = cookieStore.get('auth-token')
   
   if (token) {

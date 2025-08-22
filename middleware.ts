@@ -11,7 +11,8 @@ const publicPaths = [
   '/api/auth/login',
   '/api/auth/signup',
   '/api/auth/forgot-password',
-  '/api/auth/reset-password'
+  '/api/auth/reset-password',
+  '/api/debug'
 ]
 
 // Paths that require authentication
@@ -111,4 +112,5 @@ export const config = {
      */
     '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
+  runtime: 'nodejs',
 }
