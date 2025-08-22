@@ -48,14 +48,21 @@ export function Navigation() {
                     className={cn(
                       'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 relative overflow-hidden',
                       isActive
-                        ? 'bg-primary text-primary-foreground shadow-lg scale-105'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-white/10'
+                        ? 'bg-primary text-primary-foreground shadow-lg transform-gpu'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-white/10 hover:shadow-md'
                     )}
+                    style={{
+                      transform: isActive ? 'translateY(-1px) scale(1.02)' : undefined,
+                      willChange: 'transform',
+                    }}
                   >
-                    <Icon className={cn(
-                      "h-4 w-4 transition-all duration-200",
-                      isActive ? "scale-110" : ""
-                    )} />
+                    <Icon 
+                      className="h-4 w-4 transition-all duration-200"
+                      style={{
+                        transform: isActive ? 'scale(1.1)' : undefined,
+                        willChange: 'transform',
+                      }}
+                    />
                     {item.name}
                   </Link>
                 )

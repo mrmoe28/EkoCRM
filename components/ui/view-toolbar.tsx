@@ -77,11 +77,15 @@ export function ViewToolbar({
                 size="sm"
                 onClick={() => onViewChange(value)}
                 className={cn(
-                  "transition-all duration-200",
+                  "transition-all duration-200 transform-gpu",
                   currentView === value 
-                    ? "shadow-lg scale-105" 
+                    ? "shadow-lg" 
                     : "hover:bg-accent-purple/10"
                 )}
+                style={{
+                  transform: currentView === value ? 'translateY(-1px) scale(1.02)' : undefined,
+                  willChange: 'transform',
+                }}
                 title={label}
               >
                 <Icon className="h-4 w-4" />

@@ -219,7 +219,7 @@ export function JobForm({ job, contacts, onSave, onCancel }: JobFormProps) {
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button type="submit">
+            <Button type="submit" variant="orange">
               <Save className="h-4 w-4 mr-2" />
               Save Job
             </Button>

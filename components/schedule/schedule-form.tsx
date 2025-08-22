@@ -229,7 +229,7 @@ export function ScheduleForm({ schedule, selectedDate, jobs, tasks, contacts, on
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button type="submit">
+            <Button type="submit" variant="orange">
               <Save className="h-4 w-4 mr-2" />
               Save Appointment
             </Button>

@@ -112,8 +112,8 @@ export default function SchedulePage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="glass-card p-6 rounded-xl">
+    <div className="h-full flex flex-col">
+      <div className="mb-6">
         <h1 className="text-3xl font-bold gradient-orange-purple">Schedule</h1>
         <p className="text-muted-foreground mt-2">
           Manage appointments, site visits, and installation schedules
@@ -134,7 +134,7 @@ export default function SchedulePage() {
           />
         </div>
       ) : (
-        <div className="glass-card p-6 rounded-xl">
+        <div className="flex-1 min-h-0">
           <ScheduleCalendar
             schedules={schedules}
             onAddSchedule={handleAddSchedule}

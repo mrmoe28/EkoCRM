@@ -93,31 +93,29 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
     .slice(0, 5)
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
       {/* Calendar */}
-      <div className="lg:col-span-3">
-        <Card variant="glass" className="glass-card">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-xl gradient-orange-purple">{monthYear}</CardTitle>
-              <div className="flex items-center gap-2">
-                <Button variant="glass" size="sm" onClick={() => navigateMonth('prev')}>
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <Button variant="purple" size="sm" onClick={() => setCurrentDate(new Date())}>
-                  Today
-                </Button>
-                <Button variant="glass" size="sm" onClick={() => navigateMonth('next')}>
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-                <Button variant="gradient-sunset" onClick={() => onAddSchedule()}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Appointment
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
+      <div className="lg:col-span-3 flex flex-col">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold gradient-orange-purple">{monthYear}</h2>
+          <div className="flex items-center gap-2">
+            <Button variant="glass" size="sm" onClick={() => navigateMonth('prev')}>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button variant="purple" size="sm" onClick={() => setCurrentDate(new Date())}>
+              Today
+            </Button>
+            <Button variant="glass" size="sm" onClick={() => navigateMonth('next')}>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button variant="orange" onClick={() => onAddSchedule()}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Appointment
+            </Button>
+          </div>
+        </div>
+        
+        <div className="flex-1 flex flex-col min-h-0">
             <div className="grid grid-cols-7 gap-1 mb-4">
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
                 <div key={day} className="p-2 text-center font-medium text-sm text-muted-foreground">
@@ -141,7 +139,7 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                 return (
                   <div
                     key={day.toString()}
-                    className={`h-20 p-1 border-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl ${
+                    className={`h-20 p-1 border-2 rounded-lg cursor-pointer transition-all duration-300 hover:shadow-xl transform-gpu ${
                       isToday 
                         ? 'bg-gradient-to-br from-accent-purple to-accent-orange border-accent-purple shadow-2xl text-white' 
                         : hasAppointments
@@ -193,8 +191,7 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                 )
               })}
             </div>
-          </CardContent>
-        </Card>
+        </div>
       </div>
 
       {/* Sidebar */}
@@ -213,7 +210,16 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                 {todaySchedules.map(schedule => (
                   <div
                     key={schedule.id}
-                    className="p-3 border-2 border-accent-purple/30 rounded-lg cursor-pointer hover:bg-accent-purple/10 hover:border-accent-purple hover:scale-[1.02] transition-all duration-200 glass-card"
+                    className="p-3 border-2 border-accent-purple/30 rounded-lg cursor-pointer hover:bg-accent-purple/10 hover:border-accent-purple transition-all duration-200 glass-card transform-gpu"
+                    style={{
+                      willChange: 'transform',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-1px) scale(1.01)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = ''
+                    }}
                     onClick={() => onEditSchedule(schedule)}
                   >
                     <div className="font-medium text-accent-purple">{schedule.title}</div>
@@ -258,7 +264,16 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                 {upcomingSchedules.map(schedule => (
                   <div
                     key={schedule.id}
-                    className="p-3 border-2 border-accent-orange/30 rounded-lg cursor-pointer hover:bg-accent-orange/10 hover:border-accent-orange hover:scale-[1.02] transition-all duration-200 glass-card"
+                    className="p-3 border-2 border-accent-orange/30 rounded-lg cursor-pointer hover:bg-accent-orange/10 hover:border-accent-orange transition-all duration-200 glass-card transform-gpu"
+                    style={{
+                      willChange: 'transform',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-1px) scale(1.01)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = ''
+                    }}
                     onClick={() => onEditSchedule(schedule)}
                   >
                     <div className="font-medium text-accent-orange">{schedule.title}</div>
