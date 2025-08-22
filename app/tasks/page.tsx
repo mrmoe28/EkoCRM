@@ -1,17 +1,62 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TaskList } from '@/components/tasks/task-list'
 import { TaskForm } from '@/components/tasks/task-form'
-import { Task, NewTask } from '@/lib/db'
+import { Task, NewTask, Job, Contact } from '@/lib/db'
 import { ViewToolbar, ViewType } from '@/components/ui/view-toolbar'
 
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([])
+  const [jobs, setJobs] = useState<Job[]>([])
+  const [contacts, setContacts] = useState<Contact[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editingTask, setEditingTask] = useState<Task | undefined>()
   const [currentView, setCurrentView] = useState<ViewType>('card')
   const [searchTerm, setSearchTerm] = useState('')
+
+  // Fetch tasks, jobs, and contacts on component mount
+  useEffect(() => {
+    fetchTasks()
+    fetchJobs()
+    fetchContacts()
+  }, [])
+
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch('/api/tasks')
+      if (response.ok) {
+        const data = await response.json()
+        setTasks(data)
+      }
+    } catch (error) {
+      console.error('Error fetching tasks:', error)
+    }
+  }
+
+  const fetchJobs = async () => {
+    try {
+      const response = await fetch('/api/jobs')
+      if (response.ok) {
+        const data = await response.json()
+        setJobs(data)
+      }
+    } catch (error) {
+      console.error('Error fetching jobs:', error)
+    }
+  }
+
+  const fetchContacts = async () => {
+    try {
+      const response = await fetch('/api/contacts')
+      if (response.ok) {
+        const data = await response.json()
+        setContacts(data)
+      }
+    } catch (error) {
+      console.error('Error fetching contacts:', error)
+    }
+  }
 
   const handleAddTask = () => {
     setEditingTask(undefined)
@@ -74,6 +119,8 @@ export default function TasksPage() {
         <div className="glass-card p-6 rounded-xl">
           <TaskForm
             task={editingTask}
+            jobs={jobs}
+            contacts={contacts}
             onSave={handleSaveTask}
             onCancel={handleCancel}
           />

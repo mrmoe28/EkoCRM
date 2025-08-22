@@ -5,16 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { X, Save } from 'lucide-react'
-import { Schedule, NewSchedule } from '@/lib/db'
+import { Schedule, NewSchedule, Job, Task, Contact } from '@/lib/db'
 
 interface ScheduleFormProps {
   schedule?: Schedule
   selectedDate?: string
+  jobs?: Job[]
+  tasks?: Task[]
+  contacts?: Contact[]
   onSave: (schedule: NewSchedule) => void
   onCancel: () => void
 }
 
-export function ScheduleForm({ schedule, selectedDate, onSave, onCancel }: ScheduleFormProps) {
+export function ScheduleForm({ schedule, selectedDate, jobs, tasks, contacts, onSave, onCancel }: ScheduleFormProps) {
   const [formData, setFormData] = useState<NewSchedule>({
     title: schedule?.title || '',
     description: schedule?.description || '',
@@ -62,6 +65,60 @@ export function ScheduleForm({ schedule, selectedDate, onSave, onCancel }: Sched
                   placeholder="Site visit with John Doe"
                   required
                 />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Related Job</label>
+                <select
+                  value={formData.jobId || ''}
+                  onChange={(e) => handleChange('jobId', e.target.value ? parseInt(e.target.value) : null)}
+                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                >
+                  <option value="">Select a job...</option>
+                  {jobs?.map((job) => (
+                    <option key={job.id} value={job.id}>
+                      {job.title}
+                    </option>
+                  )) || (
+                    <option disabled>No jobs available</option>
+                  )}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Related Task</label>
+                <select
+                  value={formData.taskId || ''}
+                  onChange={(e) => handleChange('taskId', e.target.value ? parseInt(e.target.value) : null)}
+                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                >
+                  <option value="">Select a task...</option>
+                  {tasks?.map((task) => (
+                    <option key={task.id} value={task.id}>
+                      {task.title}
+                    </option>
+                  )) || (
+                    <option disabled>No tasks available</option>
+                  )}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Customer</label>
+                <select
+                  value={formData.contactId || ''}
+                  onChange={(e) => handleChange('contactId', e.target.value ? parseInt(e.target.value) : null)}
+                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                >
+                  <option value="">Select a customer...</option>
+                  {contacts?.map((contact) => (
+                    <option key={contact.id} value={contact.id}>
+                      {contact.name} {contact.company && `(${contact.company})`}
+                    </option>
+                  )) || (
+                    <option disabled>No contacts available</option>
+                  )}
+                </select>
               </div>
 
               <div>

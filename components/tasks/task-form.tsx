@@ -5,15 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { X, Save } from 'lucide-react'
-import { Task, NewTask } from '@/lib/db'
+import { Task, NewTask, Job, Contact } from '@/lib/db'
 
 interface TaskFormProps {
   task?: Task
+  jobs?: Job[]
+  contacts?: Contact[]
   onSave: (task: NewTask) => void
   onCancel: () => void
 }
 
-export function TaskForm({ task, onSave, onCancel }: TaskFormProps) {
+export function TaskForm({ task, jobs, contacts, onSave, onCancel }: TaskFormProps) {
   const [formData, setFormData] = useState<NewTask>({
     title: task?.title || '',
     description: task?.description || '',
@@ -59,6 +61,42 @@ export function TaskForm({ task, onSave, onCancel }: TaskFormProps) {
                   placeholder="Install solar panels on south roof"
                   required
                 />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Related Job</label>
+                <select
+                  value={formData.jobId || ''}
+                  onChange={(e) => handleChange('jobId', e.target.value ? parseInt(e.target.value) : null)}
+                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                >
+                  <option value="">Select a job...</option>
+                  {jobs?.map((job) => (
+                    <option key={job.id} value={job.id}>
+                      {job.title}
+                    </option>
+                  )) || (
+                    <option disabled>No jobs available</option>
+                  )}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Related Contact</label>
+                <select
+                  value={formData.contactId || ''}
+                  onChange={(e) => handleChange('contactId', e.target.value ? parseInt(e.target.value) : null)}
+                  className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                >
+                  <option value="">Select a contact...</option>
+                  {contacts?.map((contact) => (
+                    <option key={contact.id} value={contact.id}>
+                      {contact.name} {contact.company && `(${contact.company})`}
+                    </option>
+                  )) || (
+                    <option disabled>No contacts available</option>
+                  )}
+                </select>
               </div>
 
               <div>

@@ -1,15 +1,73 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ScheduleCalendar } from '@/components/schedule/schedule-calendar'
 import { ScheduleForm } from '@/components/schedule/schedule-form'
-import { Schedule, NewSchedule } from '@/lib/db'
+import { Schedule, NewSchedule, Job, Task, Contact } from '@/lib/db'
 
 export default function SchedulePage() {
   const [schedules, setSchedules] = useState<Schedule[]>([])
+  const [jobs, setJobs] = useState<Job[]>([])
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [contacts, setContacts] = useState<Contact[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editingSchedule, setEditingSchedule] = useState<Schedule | undefined>()
   const [selectedDate, setSelectedDate] = useState<string>('')
+
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchSchedules()
+    fetchJobs()
+    fetchTasks()
+    fetchContacts()
+  }, [])
+
+  const fetchSchedules = async () => {
+    try {
+      const data: Schedule[] = [
+        // Mock data - you'll need to implement the API endpoint
+      ]
+      setSchedules(data)
+    } catch (error) {
+      console.error('Error fetching schedules:', error)
+    }
+  }
+
+  const fetchJobs = async () => {
+    try {
+      const response = await fetch('/api/jobs')
+      if (response.ok) {
+        const data = await response.json()
+        setJobs(data)
+      }
+    } catch (error) {
+      console.error('Error fetching jobs:', error)
+    }
+  }
+
+  const fetchTasks = async () => {
+    try {
+      const response = await fetch('/api/tasks')
+      if (response.ok) {
+        const data = await response.json()
+        setTasks(data)
+      }
+    } catch (error) {
+      console.error('Error fetching tasks:', error)
+    }
+  }
+
+  const fetchContacts = async () => {
+    try {
+      const response = await fetch('/api/contacts')
+      if (response.ok) {
+        const data = await response.json()
+        setContacts(data)
+      }
+    } catch (error) {
+      console.error('Error fetching contacts:', error)
+    }
+  }
 
   const handleAddSchedule = (date?: string) => {
     setEditingSchedule(undefined)
@@ -68,6 +126,9 @@ export default function SchedulePage() {
           <ScheduleForm
             schedule={editingSchedule}
             selectedDate={selectedDate}
+            jobs={jobs}
+            tasks={tasks}
+            contacts={contacts}
             onSave={handleSaveSchedule}
             onCancel={handleCancel}
           />

@@ -3,20 +3,22 @@
 import { useState, useEffect } from 'react'
 import { JobList } from '@/components/jobs/job-list'
 import { JobForm } from '@/components/jobs/job-form'
-import { Job, NewJob } from '@/lib/db'
+import { Job, NewJob, Contact } from '@/lib/db'
 import { ViewToolbar, ViewType } from '@/components/ui/view-toolbar'
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([])
+  const [contacts, setContacts] = useState<Contact[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editingJob, setEditingJob] = useState<Job | undefined>()
   const [currentView, setCurrentView] = useState<ViewType>('card')
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
 
-  // Fetch jobs from API on component mount
+  // Fetch jobs and contacts from API on component mount
   useEffect(() => {
     fetchJobs()
+    fetchContacts()
   }, [])
 
   const fetchJobs = async () => {
@@ -33,6 +35,20 @@ export default function JobsPage() {
       console.error('Error fetching jobs:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchContacts = async () => {
+    try {
+      const response = await fetch('/api/contacts')
+      if (response.ok) {
+        const data = await response.json()
+        setContacts(data)
+      } else {
+        console.error('Failed to fetch contacts')
+      }
+    } catch (error) {
+      console.error('Error fetching contacts:', error)
     }
   }
 
@@ -121,6 +137,7 @@ export default function JobsPage() {
         <div className="glass-card p-6 rounded-xl">
           <JobForm
             job={editingJob}
+            contacts={contacts}
             onSave={handleSaveJob}
             onCancel={handleCancel}
           />
