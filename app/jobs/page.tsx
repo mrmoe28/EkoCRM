@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { JobList } from '@/components/jobs/job-list'
 import { JobForm } from '@/components/jobs/job-form'
 import { Job, NewJob } from '@/lib/db'
@@ -12,6 +12,29 @@ export default function JobsPage() {
   const [editingJob, setEditingJob] = useState<Job | undefined>()
   const [currentView, setCurrentView] = useState<ViewType>('card')
   const [searchTerm, setSearchTerm] = useState('')
+  const [loading, setLoading] = useState(true)
+
+  // Fetch jobs from API on component mount
+  useEffect(() => {
+    fetchJobs()
+  }, [])
+
+  const fetchJobs = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch('/api/jobs')
+      if (response.ok) {
+        const data = await response.json()
+        setJobs(data)
+      } else {
+        console.error('Failed to fetch jobs')
+      }
+    } catch (error) {
+      console.error('Error fetching jobs:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleAddJob = () => {
     setEditingJob(undefined)
@@ -23,24 +46,44 @@ export default function JobsPage() {
     setShowForm(true)
   }
 
-  const handleSaveJob = (jobData: NewJob) => {
-    if (editingJob) {
-      setJobs(prev => prev.map(j => 
-        j.id === editingJob.id 
-          ? { ...j, ...jobData, updatedAt: new Date().toISOString() }
-          : j
-      ))
-    } else {
-      const newJob: Job = {
-        ...jobData,
-        id: Date.now(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+  const handleSaveJob = async (jobData: NewJob) => {
+    try {
+      if (editingJob) {
+        // Update existing job
+        const response = await fetch('/api/jobs', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingJob.id, ...jobData })
+        })
+        
+        if (response.ok) {
+          const updatedJob = await response.json()
+          setJobs(prev => prev.map(j => 
+            j.id === editingJob.id ? updatedJob : j
+          ))
+        } else {
+          console.error('Failed to update job')
+        }
+      } else {
+        // Create new job
+        const response = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(jobData)
+        })
+        
+        if (response.ok) {
+          const newJob = await response.json()
+          setJobs(prev => [newJob, ...prev])
+        } else {
+          console.error('Failed to create job')
+        }
       }
-      setJobs(prev => [newJob, ...prev])
+      setShowForm(false)
+      setEditingJob(undefined)
+    } catch (error) {
+      console.error('Error saving job:', error)
     }
-    setShowForm(false)
-    setEditingJob(undefined)
   }
 
   const handleCancel = () => {
@@ -48,8 +91,20 @@ export default function JobsPage() {
     setEditingJob(undefined)
   }
 
-  const handleDeleteJob = (jobId: number) => {
-    setJobs(prev => prev.filter(j => j.id !== jobId))
+  const handleDeleteJob = async (jobId: number) => {
+    try {
+      const response = await fetch(`/api/jobs?id=${jobId}`, {
+        method: 'DELETE'
+      })
+      
+      if (response.ok) {
+        setJobs(prev => prev.filter(j => j.id !== jobId))
+      } else {
+        console.error('Failed to delete job')
+      }
+    } catch (error) {
+      console.error('Error deleting job:', error)
+    }
   }
 
   return (

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Navigation } from '@/components/navigation'
 import { ThemeProvider } from '@/lib/theme-provider'
+import { AuthProvider } from '@/lib/auth-context'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,12 +26,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <div className="min-h-screen bg-background theme-transition">
-            <Navigation />
-            <main className="container mx-auto px-4 py-6">
-              {children}
-            </main>
-          </div>
+          <AuthProvider>
+            <div className="min-h-screen bg-background theme-transition">
+              <Navigation />
+              <main className="container mx-auto px-4 py-6">
+                {children}
+              </main>
+            </div>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

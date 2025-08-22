@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ContactList } from '@/components/contacts/contact-list'
 import { ContactForm } from '@/components/contacts/contact-form'
 import { Contact, NewContact } from '@/lib/db'
@@ -12,6 +12,29 @@ export default function ContactsPage() {
   const [editingContact, setEditingContact] = useState<Contact | undefined>()
   const [currentView, setCurrentView] = useState<ViewType>('card')
   const [searchTerm, setSearchTerm] = useState('')
+  const [loading, setLoading] = useState(true)
+
+  // Fetch contacts from API on component mount
+  useEffect(() => {
+    fetchContacts()
+  }, [])
+
+  const fetchContacts = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch('/api/contacts')
+      if (response.ok) {
+        const data = await response.json()
+        setContacts(data)
+      } else {
+        console.error('Failed to fetch contacts')
+      }
+    } catch (error) {
+      console.error('Error fetching contacts:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleAddContact = () => {
     setEditingContact(undefined)
@@ -23,24 +46,44 @@ export default function ContactsPage() {
     setShowForm(true)
   }
 
-  const handleSaveContact = (contactData: NewContact) => {
-    if (editingContact) {
-      setContacts(prev => prev.map(c => 
-        c.id === editingContact.id 
-          ? { ...c, ...contactData, updatedAt: new Date().toISOString() }
-          : c
-      ))
-    } else {
-      const newContact: Contact = {
-        ...contactData,
-        id: Date.now(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+  const handleSaveContact = async (contactData: NewContact) => {
+    try {
+      if (editingContact) {
+        // Update existing contact
+        const response = await fetch('/api/contacts', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingContact.id, ...contactData })
+        })
+        
+        if (response.ok) {
+          const updatedContact = await response.json()
+          setContacts(prev => prev.map(c => 
+            c.id === editingContact.id ? updatedContact : c
+          ))
+        } else {
+          console.error('Failed to update contact')
+        }
+      } else {
+        // Create new contact
+        const response = await fetch('/api/contacts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(contactData)
+        })
+        
+        if (response.ok) {
+          const newContact = await response.json()
+          setContacts(prev => [newContact, ...prev])
+        } else {
+          console.error('Failed to create contact')
+        }
       }
-      setContacts(prev => [newContact, ...prev])
+      setShowForm(false)
+      setEditingContact(undefined)
+    } catch (error) {
+      console.error('Error saving contact:', error)
     }
-    setShowForm(false)
-    setEditingContact(undefined)
   }
 
   const handleCancel = () => {

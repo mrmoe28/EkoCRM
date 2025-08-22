@@ -1,8 +1,27 @@
-import { integer, text, sqliteTable, real } from 'drizzle-orm/sqlite-core'
+import { integer, text, pgTable, real, timestamp, uuid } from 'drizzle-orm/pg-core'
 // import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 
-export const contacts = sqliteTable('contacts', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
+export const users = pgTable('users', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  email: text('email').notNull().unique(),
+  password: text('password').notNull(),
+  profileImage: text('profile_image'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
+})
+
+export const passwordResetTokens = pgTable('password_reset_tokens', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id).notNull(),
+  token: text('token').notNull().unique(),
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt: timestamp('created_at').defaultNow()
+})
+
+export const contacts = pgTable('contacts', {
+  id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+  userId: uuid('user_id').references(() => users.id),
   name: text('name').notNull(),
   email: text('email'),
   phone: text('phone'),
@@ -13,12 +32,13 @@ export const contacts = sqliteTable('contacts', {
   company: text('company'),
   notes: text('notes'),
   status: text('status', { enum: ['lead', 'prospect', 'customer', 'inactive'] }).default('lead'),
-  createdAt: text('created_at').default("datetime('now')"),
-  updatedAt: text('updated_at').default("datetime('now')")
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
 })
 
-export const jobs = sqliteTable('jobs', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
+export const jobs = pgTable('jobs', {
+  id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+  userId: uuid('user_id').references(() => users.id),
   title: text('title').notNull(),
   description: text('description'),
   contactId: integer('contact_id').references(() => contacts.id),
@@ -36,12 +56,13 @@ export const jobs = sqliteTable('jobs', {
   state: text('state'),
   zipCode: text('zip_code'),
   notes: text('notes'),
-  createdAt: text('created_at').default("datetime('now')"),
-  updatedAt: text('updated_at').default("datetime('now')")
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
 })
 
-export const tasks = sqliteTable('tasks', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
+export const tasks = pgTable('tasks', {
+  id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+  userId: uuid('user_id').references(() => users.id),
   title: text('title').notNull(),
   description: text('description'),
   jobId: integer('job_id').references(() => jobs.id),
@@ -56,12 +77,13 @@ export const tasks = sqliteTable('tasks', {
   estimatedHours: real('estimated_hours'),
   actualHours: real('actual_hours'),
   notes: text('notes'),
-  createdAt: text('created_at').default("datetime('now')"),
-  updatedAt: text('updated_at').default("datetime('now')")
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
 })
 
-export const schedules = sqliteTable('schedules', {
-  id: integer('id').primaryKey({ autoIncrement: true }),
+export const schedules = pgTable('schedules', {
+  id: integer('id').primaryKey().generatedAlwaysAsIdentity(),
+  userId: uuid('user_id').references(() => users.id),
   title: text('title').notNull(),
   description: text('description'),
   jobId: integer('job_id').references(() => jobs.id),
@@ -79,8 +101,8 @@ export const schedules = sqliteTable('schedules', {
     enum: ['scheduled', 'confirmed', 'in_progress', 'completed', 'cancelled'] 
   }).default('scheduled'),
   notes: text('notes'),
-  createdAt: text('created_at').default("datetime('now')"),
-  updatedAt: text('updated_at').default("datetime('now')")
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow()
 })
 
 // Zod schemas for validation - temporarily disabled due to version conflict
@@ -95,6 +117,12 @@ export const schedules = sqliteTable('schedules', {
 
 // export const insertScheduleSchema = createInsertSchema(schedules)
 // export const selectScheduleSchema = createSelectSchema(schedules)
+
+export type User = typeof users.$inferSelect
+export type NewUser = typeof users.$inferInsert
+
+export type PasswordResetToken = typeof passwordResetTokens.$inferSelect
+export type NewPasswordResetToken = typeof passwordResetTokens.$inferInsert
 
 export type Contact = typeof contacts.$inferSelect
 export type NewContact = typeof contacts.$inferInsert

@@ -12,6 +12,7 @@ import {
   Zap
 } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
+import { ProfileDropdown } from '@/components/profile-dropdown'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },
@@ -62,8 +63,9 @@ export function Navigation() {
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <ThemeToggle />
+            <ProfileDropdown />
           </div>
         </div>
       </div>
