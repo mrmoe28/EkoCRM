@@ -1,0 +1,437 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Mode - Claude Desktop Style with Solar Accents */
+    --background: #ffffff;
+    --foreground: #1a1a1a;
+    --card: #ffffff;
+    --card-foreground: #1a1a1a;
+    --popover: #ffffff;
+    --popover-foreground: #1a1a1a;
+    --primary: #f97316;
+    --primary-foreground: #ffffff;
+    --secondary: #f8f9fa;
+    --secondary-foreground: #1a1a1a;
+    --muted: #fafafa;
+    --muted-foreground: #6b7280;
+    --accent: #f97316;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #e5e7eb;
+    --input: #ffffff;
+    --ring: #f97316;
+    --radius: 0.5rem;
+    
+    /* Enhanced contrast for better readability */
+    --dropdown-background: #ffffff;
+    --dropdown-border: #e5e7eb;
+    --button-hover: #f3f4f6;
+    --button-active: #e5e7eb;
+    
+    /* Glassmorphism Variables */
+    --glass-background: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+    --blur-strength: 12px;
+    --backdrop-saturate: 1.8;
+    
+    /* Modern Shadow System */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    
+    /* Orange & Purple Accent Colors */
+    --accent-orange: #f97316;
+    --accent-orange-hover: #ea580c;
+    --accent-orange-light: #fed7aa;
+    --accent-purple: #8b5cf6;
+    --accent-purple-hover: #7c3aed;
+    --accent-purple-light: #ddd6fe;
+    
+    /* Gradient Definitions */
+    --gradient-primary: linear-gradient(135deg, #f59e0b 0%, #eab308 100%);
+    --gradient-secondary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    --gradient-background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    --gradient-orange: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    --gradient-sunset: linear-gradient(135deg, #f97316 0%, #8b5cf6 100%);
+  }
+
+  .dark {
+    /* Dark Mode - Claude Desktop Style with Solar Accents */
+    --background: #0f0f0f;
+    --foreground: #ffffff;
+    --card: #1a1a1a;
+    --card-foreground: #ffffff;
+    --popover: #1a1a1a;
+    --popover-foreground: #ffffff;
+    --primary: #ff8c00;
+    --primary-foreground: #000000;
+    --secondary: #262626;
+    --secondary-foreground: #ffffff;
+    --muted: #1a1a1a;
+    --muted-foreground: #9ca3af;
+    --accent: #ff8c00;
+    --accent-foreground: #000000;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #374151;
+    --input: #1a1a1a;
+    --ring: #ff8c00;
+    --radius: 0.5rem;
+    
+    /* Enhanced contrast for better readability */
+    --dropdown-background: #1a1a1a;
+    --dropdown-border: #374151;
+    --button-hover: #374151;
+    --button-active: #4b5563;
+    
+    /* Glassmorphism Variables */
+    --glass-background: rgba(26, 26, 26, 0.3);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: rgba(0, 0, 0, 0.7);
+    --blur-strength: 16px;
+    --backdrop-saturate: 1.5;
+    
+    /* Modern Shadow System */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.6), 0 1px 2px -1px rgba(0, 0, 0, 0.6);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -2px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    
+    /* Orange & Purple Accent Colors */
+    --accent-orange: #ff8c00;
+    --accent-orange-hover: #ffa500;
+    --accent-orange-light: #ffcc80;
+    --accent-purple: #a78bfa;
+    --accent-purple-hover: #8b5cf6;
+    --accent-purple-light: #ddd6fe;
+    
+    /* Gradient Definitions */
+    --gradient-primary: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
+    --gradient-secondary: linear-gradient(135deg, #262626 0%, #374151 100%);
+    --gradient-background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    --gradient-orange: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
+    --gradient-purple: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+    --gradient-sunset: linear-gradient(135deg, #ff8c00 0%, #a78bfa 100%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    transition: background-color 0.2s ease-in-out,
+                border-color 0.2s ease-in-out,
+                color 0.2s ease-in-out,
+                opacity 0.2s ease-in-out;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    background: var(--background);
+    transition: background-color 0.2s ease-in-out,
+                color 0.2s ease-in-out;
+  }
+  
+  /* Modern Solid Components with Shadows */
+  .glass-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .glass-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--ring);
+  }
+  
+  .glass-nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .modern-button {
+    background: var(--gradient-primary);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .modern-button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    filter: brightness(1.05);
+  }
+  
+  .modern-button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+  }
+  
+  .glass-input {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid var(--accent-purple);
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-input:focus {
+    box-shadow: var(--shadow-lg), 0 0 0 2px var(--accent-orange);
+    border-color: var(--accent-orange);
+    background: #ffffff;
+    color: #000000;
+  }
+  
+  .glass-input::placeholder {
+    color: #6b7280;
+  }
+  
+  .glass-input.dark {
+    background: #1f2937;
+    color: #ffffff;
+    border-color: var(--accent-purple);
+  }
+  
+  .glass-input.dark:focus {
+    background: #1f2937;
+    color: #ffffff;
+  }
+  
+  .floating-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .floating-card:hover {
+    box-shadow: var(--shadow-xl);
+    border-color: var(--ring);
+  }
+  
+  /* Modern Animation Enhancements */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes glow {
+    from { filter: drop-shadow(0 0 5px var(--primary)); }
+    to { filter: drop-shadow(0 0 20px var(--primary)); }
+  }
+  
+  /* Enhanced Focus States */
+  .focus-glow:focus-within {
+    box-shadow: var(--shadow-lg), 0 0 0 1px var(--ring), 0 0 20px var(--ring);
+    transform: scale(1.02);
+  }
+  
+  /* Gradient Text Effects */
+  .gradient-text-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .gradient-text-secondary {
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Modern Card Hover Effects */
+  .card-hover-lift {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .card-hover-lift:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-2xl);
+  }
+  
+  /* Glass Morphism Variants */
+  .glass-subtle {
+    background: rgba(var(--glass-background), 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--glass-border), 0.1);
+  }
+  
+  .glass-medium {
+    background: rgba(var(--glass-background), 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--glass-border), 0.2);
+  }
+  
+  .glass-strong {
+    background: rgba(var(--glass-background), 0.2);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(var(--glass-border), 0.3);
+  }
+  
+  /* Orange & Purple Accent Classes */
+  .accent-orange {
+    color: var(--accent-orange);
+  }
+  
+  .accent-purple {
+    color: var(--accent-purple);
+  }
+  
+  .bg-accent-orange {
+    background-color: var(--accent-orange);
+  }
+  
+  .bg-accent-purple {
+    background-color: var(--accent-purple);
+  }
+  
+  .border-accent-orange {
+    border-color: var(--accent-orange);
+  }
+  
+  .border-accent-purple {
+    border-color: var(--accent-purple);
+  }
+  
+  .hover-accent-orange:hover {
+    color: var(--accent-orange-hover);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+  }
+  
+  .hover-accent-purple:hover {
+    color: var(--accent-purple-hover);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+  }
+  
+  .gradient-orange-purple {
+    background: var(--gradient-sunset);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .glass-orange {
+    background: var(--card);
+    border: 2px solid var(--accent-orange);
+    box-shadow: var(--shadow-xl), 0 0 20px rgba(249, 115, 22, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-orange:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2xl), 0 0 30px rgba(249, 115, 22, 0.4);
+  }
+  
+  .glass-purple {
+    background: var(--card);
+    border: 2px solid var(--accent-purple);
+    box-shadow: var(--shadow-xl), 0 0 20px rgba(139, 92, 246, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-purple:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2xl), 0 0 30px rgba(139, 92, 246, 0.4);
+  }
+  
+  /* Solar energy animations */
+  @keyframes solar-pulse {
+    0%, 100% { 
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% { 
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+  
+  @keyframes solar-glow {
+    0%, 100% { 
+      box-shadow: 0 0 5px var(--primary);
+    }
+    50% { 
+      box-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary);
+    }
+  }
+  
+  @keyframes theme-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Theme-aware component styles */
+  .solar-energy-animation {
+    animation: solar-pulse 3s ease-in-out infinite;
+  }
+  
+  .solar-glow {
+    animation: solar-glow 2s ease-in-out infinite;
+  }
+  
+  .theme-transition {
+    animation: theme-fade-in 0.5s ease-out;
+  }
+  
+  /* Enhanced focus states for accessibility */
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--primary);
+  }
+  
+  /* Theme preview cards */
+  .theme-preview-card {
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+  
+  .theme-preview-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .theme-preview-card.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary);
+  }
+}
