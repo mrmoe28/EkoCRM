@@ -35,8 +35,11 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok) {
-        router.push('/')
-        router.refresh()
+        // Small delay to ensure cookie is set
+        setTimeout(() => {
+          router.push('/')
+          router.refresh()
+        }, 100)
       } else {
         setError(data.error || 'Login failed')
       }

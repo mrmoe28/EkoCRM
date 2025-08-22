@@ -22,15 +22,26 @@ const protectedPaths = [
   '/tasks',
   '/schedule',
   '/themes',
+  '/profile',
   '/api/contacts',
   '/api/jobs',
   '/api/tasks',
   '/api/auth/session',
-  '/api/auth/logout'
+  '/api/auth/logout',
+  '/api/auth/update-profile'
 ]
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const token = request.cookies.get('auth-token')?.value
+  
+  // Check if user is authenticated
+  const isAuthenticated = token && verifyToken(token)
+  
+  // Redirect authenticated users away from auth pages
+  if (isAuthenticated && (pathname === '/login' || pathname === '/signup')) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
   
   // Allow all public paths
   if (publicPaths.some(path => pathname.startsWith(path))) {
@@ -48,8 +59,6 @@ export function middleware(request: NextRequest) {
   
   // Check authentication for protected paths
   if (protectedPaths.some(path => pathname.startsWith(path))) {
-    const token = request.cookies.get('auth-token')?.value
-    
     if (!token) {
       // Redirect to login for protected routes
       const loginUrl = new URL('/login', request.url)
@@ -57,8 +66,8 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl)
     }
     
-    // Verify token
-    const userPayload = verifyToken(token)
+    // Verify token (reuse from above if already checked)
+    const userPayload = isAuthenticated || verifyToken(token)
     if (!userPayload) {
       // Invalid token, redirect to login
       const response = NextResponse.redirect(new URL('/login', request.url))
