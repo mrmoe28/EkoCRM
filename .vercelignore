@@ -1,0 +1,36 @@
+# Documentation
+README.md
+docs/
+*.md
+
+# Development files
+.env.example
+.env.local.example
+
+# Test files
+tests/
+test-results/
+playwright-report/
+*.spec.ts
+*.test.ts
+
+# Development tools
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage
+coverage/
+
+# Git
+.git/
+.gitignore
+
+# Temporary files
+.tmp/
+temp/

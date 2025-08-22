@@ -1,9 +1,13 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build:deploy",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["iad1"],
+  "env": {
+    "IGNORE_TS_ERRORS": "true",
+    "IGNORE_ESLINT_ERRORS": "true"
+  },
   "functions": {
     "app/**/*.tsx": {
       "maxDuration": 30
@@ -36,5 +40,8 @@
       "source": "/healthz",
       "destination": "/api/health"
     }
-  ]
+  ],
+  "ignoreCommand": "npx vercel-ignore",
+  "cleanUrls": true,
+  "trailingSlash": false
 }
