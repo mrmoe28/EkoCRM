@@ -93,18 +93,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log('🔄 Redirecting to dashboard using router...')
     setIsRedirecting(true)
     
+    // CRITICAL: Refresh router to update authentication state
+    console.log('🔃 Refreshing router state...')
+    router.refresh()
+    
+    // Small delay to ensure refresh completes
+    await new Promise(resolve => setTimeout(resolve, 100))
+    
     // Use router navigation instead of window.location
+    console.log('➡️ Pushing to dashboard...')
     router.push('/')
     
     // Fallback redirect if router.push doesn't work
     setTimeout(() => {
       if (window.location.pathname === '/login') {
-        console.log('⚠️ Router redirect failed, using fallback window.location')
-        window.location.href = '/'
+        console.log('⚠️ Router redirect failed, using fallback window.location.replace')
+        // Force a hard navigation to bypass all client-side routing
+        window.location.replace('/')
       } else {
+        console.log('✅ Redirect successful!')
         setIsRedirecting(false)
       }
-    }, 1000)
+    }, 1500)
   }
 
   const logout = async () => {
@@ -116,6 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setUser(null)
       console.log('🔄 Redirecting to login...')
+      router.refresh()
       router.push('/login')
     }
   }

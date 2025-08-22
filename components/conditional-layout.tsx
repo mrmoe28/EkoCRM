@@ -25,8 +25,8 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
     )
   }
 
-  if (isLoading) {
-    // Show loading state
+  if (isLoading && !isAuthPage) {
+    // Show loading state only for protected pages
     return (
       <div className="min-h-screen bg-background theme-transition flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
