@@ -47,8 +47,10 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background theme-transition">
       {showNavigation && <Navigation />}
-      <main className="container mx-auto px-4 py-6">
-        {children}
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-20 sm:pb-6">
+        <div className="w-full max-w-full overflow-x-hidden">
+          {children}
+        </div>
       </main>
     </div>
   )

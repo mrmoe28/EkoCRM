@@ -6,6 +6,12 @@ export const users = pgTable('users', {
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
+  phone: text('phone'),
+  address: text('address'),
+  city: text('city'),
+  state: text('state'),
+  zipCode: text('zip_code'),
+  company: text('company'),
   profileImage: text('profile_image'),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow()

@@ -93,41 +93,46 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
     .slice(0, 5)
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
+    <div className="w-full space-y-4 lg:space-y-0 lg:grid lg:grid-cols-4 lg:gap-6 lg:h-full">
       {/* Calendar */}
-      <div className="lg:col-span-3 flex flex-col">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold gradient-orange-purple">{monthYear}</h2>
-          <div className="flex items-center gap-2">
-            <Button variant="glass" size="sm" onClick={() => navigateMonth('prev')}>
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button variant="purple" size="sm" onClick={() => setCurrentDate(new Date())}>
-              Today
-            </Button>
-            <Button variant="glass" size="sm" onClick={() => navigateMonth('next')}>
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-            <Button variant="orange" onClick={() => onAddSchedule()}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Appointment
+      <div className="w-full lg:col-span-3 flex flex-col min-h-0">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <h2 className="text-lg sm:text-xl font-semibold gradient-orange-purple">{monthYear}</h2>
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-1">
+              <Button variant="glass" size="sm" onClick={() => navigateMonth('prev')}>
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Button variant="purple" size="sm" onClick={() => setCurrentDate(new Date())}>
+                <span className="hidden sm:inline">Today</span>
+                <span className="sm:hidden">Now</span>
+              </Button>
+              <Button variant="glass" size="sm" onClick={() => navigateMonth('next')}>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+            <Button variant="orange" onClick={() => onAddSchedule()} className="flex-1 sm:flex-none">
+              <Plus className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Add Appointment</span>
+              <span className="sm:hidden">Add</span>
             </Button>
           </div>
         </div>
         
-        <div className="flex-1 flex flex-col min-h-0">
-            <div className="grid grid-cols-7 gap-1 mb-4">
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                <div key={day} className="p-2 text-center font-medium text-sm text-muted-foreground">
-                  {day}
+        <div className="flex-1 flex flex-col min-h-0 w-full">
+            <div className="grid grid-cols-7 gap-1 mb-2 sm:mb-4">
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, index) => (
+                <div key={day} className="p-1 sm:p-2 text-center font-medium text-xs sm:text-sm text-muted-foreground">
+                  <span className="hidden sm:inline">{day}</span>
+                  <span className="sm:hidden">{day.slice(0, 1)}</span>
                 </div>
               ))}
             </div>
             
-            <div className="grid grid-cols-7 gap-1">
+            <div className="grid grid-cols-7 gap-1 flex-1 auto-rows-fr">
               {days.map((day, index) => {
                 if (!day) {
-                  return <div key={index} className="h-20" />
+                  return <div key={index} className="h-12 sm:h-16 md:h-20" />
                 }
                 
                 const daySchedules = getSchedulesForDate(day)
@@ -139,7 +144,7 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                 return (
                   <div
                     key={day.toString()}
-                    className={`h-20 p-1 border-2 rounded-lg cursor-pointer transition-all duration-300 hover:shadow-xl transform-gpu ${
+                    className={`h-12 sm:h-16 md:h-20 p-1 border-2 rounded-lg cursor-pointer transition-all duration-300 hover:shadow-xl transform-gpu ${
                       isToday 
                         ? 'bg-gradient-to-br from-accent-purple to-accent-orange border-accent-purple shadow-2xl text-white' 
                         : hasAppointments
@@ -148,19 +153,19 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                     }`}
                     onClick={() => onAddSchedule(dateString)}
                   >
-                    <div className={`font-medium text-sm mb-1 ${
+                    <div className={`font-medium text-xs sm:text-sm mb-1 flex items-center justify-between ${
                       isToday 
                         ? 'text-white font-bold' 
                         : hasAppointments 
                         ? 'text-white font-semibold' 
                         : 'text-foreground'
                     }`}>
-                      {day.getDate()}
+                      <span>{day.getDate()}</span>
                       {hasAppointments && (
-                        <div className="w-2 h-2 bg-white rounded-full ml-auto mt-0.5 animate-pulse shadow-sm"></div>
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse shadow-sm"></div>
                       )}
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-0.5 sm:space-y-1 hidden sm:block">
                       {daySchedules.slice(0, 2).map(schedule => (
                         <div
                           key={schedule.id}
@@ -171,12 +176,12 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                           }}
                         >
                           <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-accent-purple rounded-full"></div>
-                            <span className="font-bold text-accent-purple">
+                            <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-accent-purple rounded-full"></div>
+                            <span className="font-bold text-accent-purple text-xs">
                               {schedule.startTime}
                             </span>
                           </div>
-                          <div className="text-gray-800 truncate font-medium">
+                          <div className="text-gray-800 truncate font-medium text-xs">
                             {schedule.title}
                           </div>
                         </div>
@@ -187,6 +192,16 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                         </div>
                       )}
                     </div>
+                    {/* Mobile indicator */}
+                    {hasAppointments && (
+                      <div className="sm:hidden text-xs text-center mt-1">
+                        <span className={`px-1 py-0.5 rounded text-xs font-medium ${
+                          isToday || hasAppointments ? 'text-white bg-white/20' : 'text-accent-orange bg-accent-orange/10'
+                        }`}>
+                          {daySchedules.length}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 )
               })}
@@ -194,23 +209,23 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
         </div>
       </div>
 
-      {/* Sidebar */}
-      <div className="space-y-6">
+      {/* Sidebar - Desktop only on large screens, full width on mobile */}
+      <div className="w-full lg:w-auto space-y-4 lg:space-y-6">
         {/* Today's Schedule */}
-        <Card variant="glass" className="glass-purple">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Clock className="h-5 w-5 text-accent-purple" />
+        <Card variant="glass" className="glass-purple w-full">
+          <CardHeader className="pb-3 lg:pb-4">
+            <CardTitle className="text-base lg:text-lg flex items-center gap-2">
+              <Clock className="h-4 w-4 lg:h-5 lg:w-5 text-accent-purple" />
               Today's Schedule
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 lg:p-6">
             {todaySchedules.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-2 lg:space-y-3">
                 {todaySchedules.map(schedule => (
                   <div
                     key={schedule.id}
-                    className="p-3 border-2 border-accent-purple/30 rounded-lg cursor-pointer hover:bg-accent-purple/10 hover:border-accent-purple transition-all duration-200 glass-card transform-gpu"
+                    className="p-2 lg:p-3 border-2 border-accent-purple/30 rounded-lg cursor-pointer hover:bg-accent-purple/10 hover:border-accent-purple transition-all duration-200 glass-card transform-gpu"
                     style={{
                       willChange: 'transform',
                     }}
@@ -222,22 +237,22 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                     }}
                     onClick={() => onEditSchedule(schedule)}
                   >
-                    <div className="font-medium text-accent-purple">{schedule.title}</div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                    <div className="font-medium text-accent-purple text-sm lg:text-base truncate">{schedule.title}</div>
+                    <div className="flex items-center gap-2 text-xs lg:text-sm text-muted-foreground mt-1">
                       <Clock className="h-3 w-3 text-accent-orange" />
-                      {schedule.startTime} - {schedule.endTime}
+                      <span className="truncate">{schedule.startTime} - {schedule.endTime}</span>
                     </div>
                     {schedule.location && (
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2 text-xs lg:text-sm text-muted-foreground">
                         <MapPin className="h-3 w-3 text-accent-orange" />
-                        {schedule.location}
+                        <span className="truncate">{schedule.location}</span>
                       </div>
                     )}
-                    <div className="flex gap-1 mt-2">
-                      <Badge className={getTypeColor(schedule.type || 'site_visit')}>
+                    <div className="flex gap-1 mt-2 flex-wrap">
+                      <Badge className={cn(getTypeColor(schedule.type || 'site_visit'), "text-xs")}>
                         {schedule.type?.replace('_', ' ') || 'Site Visit'}
                       </Badge>
-                      <Badge variant="outline" className={getStatusColor(schedule.status || 'scheduled')}>
+                      <Badge variant="outline" className={cn(getStatusColor(schedule.status || 'scheduled'), "text-xs")}>
                         {schedule.status || 'Scheduled'}
                       </Badge>
                     </div>
@@ -245,26 +260,26 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-center py-8">No appointments today</p>
+              <p className="text-muted-foreground text-center py-4 lg:py-8 text-sm">No appointments today</p>
             )}
           </CardContent>
         </Card>
 
         {/* Upcoming Appointments */}
-        <Card variant="glass" className="glass-orange">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <User className="h-5 w-5 text-accent-orange" />
+        <Card variant="glass" className="glass-orange w-full">
+          <CardHeader className="pb-3 lg:pb-4">
+            <CardTitle className="text-base lg:text-lg flex items-center gap-2">
+              <User className="h-4 w-4 lg:h-5 lg:w-5 text-accent-orange" />
               Upcoming
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 lg:p-6">
             {upcomingSchedules.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-2 lg:space-y-3">
                 {upcomingSchedules.map(schedule => (
                   <div
                     key={schedule.id}
-                    className="p-3 border-2 border-accent-orange/30 rounded-lg cursor-pointer hover:bg-accent-orange/10 hover:border-accent-orange transition-all duration-200 glass-card transform-gpu"
+                    className="p-2 lg:p-3 border-2 border-accent-orange/30 rounded-lg cursor-pointer hover:bg-accent-orange/10 hover:border-accent-orange transition-all duration-200 glass-card transform-gpu"
                     style={{
                       willChange: 'transform',
                     }}
@@ -276,19 +291,19 @@ export function ScheduleCalendar({ schedules, onAddSchedule, onEditSchedule, onD
                     }}
                     onClick={() => onEditSchedule(schedule)}
                   >
-                    <div className="font-medium text-accent-orange">{schedule.title}</div>
-                    <div className="text-sm text-muted-foreground flex items-center gap-2">
+                    <div className="font-medium text-accent-orange text-sm lg:text-base truncate">{schedule.title}</div>
+                    <div className="text-xs lg:text-sm text-muted-foreground flex items-center gap-2">
                       <Clock className="h-3 w-3 text-accent-purple" />
-                      {formatDate(schedule.date)} at {schedule.startTime}
+                      <span className="truncate">{formatDate(schedule.date)} at {schedule.startTime}</span>
                     </div>
-                    <Badge className={getTypeColor(schedule.type || 'site_visit')}>
+                    <Badge className={cn(getTypeColor(schedule.type || 'site_visit'), "text-xs")}>
                       {schedule.type?.replace('_', ' ') || 'Site Visit'}
                     </Badge>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground text-center py-8">No upcoming appointments</p>
+              <p className="text-muted-foreground text-center py-4 lg:py-8 text-sm">No upcoming appointments</p>
             )}
           </CardContent>
         </Card>

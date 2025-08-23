@@ -33,6 +33,12 @@ export async function PUT(request: NextRequest) {
         id: users.id,
         name: users.name,
         email: users.email,
+        phone: users.phone,
+        address: users.address,
+        city: users.city,
+        state: users.state,
+        zipCode: users.zipCode,
+        company: users.company,
         profileImage: users.profileImage,
         createdAt: users.createdAt,
         updatedAt: users.updatedAt

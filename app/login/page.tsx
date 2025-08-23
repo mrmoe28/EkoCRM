@@ -8,8 +8,18 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Zap, Eye, EyeOff, Loader2, Mail, Lock } from 'lucide-react'
+import IntroScreen from '@/components/intro-screen'
 
 export default function LoginPage() {
+  // Check if user has seen intro before (for better UX)
+  const [showIntro, setShowIntro] = useState(() => {
+    if (typeof window !== 'undefined') {
+      // Show intro first time, then remember user has seen it
+      const hasSeenIntro = localStorage.getItem('hasSeenIntro')
+      return !hasSeenIntro
+    }
+    return true
+  })
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -42,6 +52,18 @@ export default function LoginPage() {
       ...prev,
       [e.target.name]: e.target.value
     }))
+  }
+
+  // Show intro screen first, then login form
+  if (showIntro) {
+    return (
+      <IntroScreen 
+        onComplete={() => {
+          localStorage.setItem('hasSeenIntro', 'true')
+          setShowIntro(false)
+        }} 
+      />
+    )
   }
 
   return (

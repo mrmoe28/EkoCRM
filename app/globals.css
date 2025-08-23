@@ -434,4 +434,22 @@
     border-color: var(--primary);
     box-shadow: 0 0 0 1px var(--primary);
   }
+
+  /* Intro Screen Animations */
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+
+  @keyframes energy-flow {
+    0%, 100% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-energy-flow {
+    animation: energy-flow 3s ease-in-out infinite;
+  }
 }

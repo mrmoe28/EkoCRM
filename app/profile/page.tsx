@@ -25,12 +25,12 @@ export default function ProfilePage() {
       setFormData({
         name: user.name || '',
         email: user.email || '',
-        phone: '',
-        address: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        company: ''
+        phone: user.phone || '',
+        address: user.address || '',
+        city: user.city || '',
+        state: user.state || '',
+        zipCode: user.zipCode || '',
+        company: user.company || ''
       })
     }
     
@@ -82,19 +82,19 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">My Profile</h1>
-        <p className="text-muted-foreground">Manage your account settings and personal information</p>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">My Profile</h1>
+        <p className="text-sm sm:text-base text-muted-foreground">Manage your account settings and personal information</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {/* Profile Picture Section */}
         <div className="lg:col-span-1">
-          <div className="bg-card rounded-lg border p-6 text-center">
+          <div className="bg-gray-800 rounded-lg border border-gray-700 p-4 sm:p-6 text-center shadow-lg">
             <div className="relative inline-block mb-4">
-              <div className="w-32 h-32 rounded-full bg-muted flex items-center justify-center overflow-hidden border-4 border-background shadow-lg">
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-muted flex items-center justify-center overflow-hidden border-4 border-background shadow-lg">
                 {profileImage ? (
                   <img 
                     src={profileImage} 
@@ -102,14 +102,14 @@ export default function ProfilePage() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <User className="h-16 w-16 text-muted-foreground" />
+                  <User className="h-12 w-12 sm:h-16 sm:w-16 text-muted-foreground" />
                 )}
               </div>
               <label 
                 htmlFor="profile-image-upload" 
-                className="absolute bottom-0 right-0 bg-primary text-primary-foreground p-2 rounded-full cursor-pointer hover:bg-primary/90 transition-colors shadow-lg"
+                className="absolute bottom-0 right-0 bg-orange-500 text-white p-2 rounded-full cursor-pointer hover:bg-orange-600 transition-colors shadow-lg"
               >
-                <Camera className="h-4 w-4" />
+                <Camera className="h-3 w-3 sm:h-4 sm:w-4" />
               </label>
               <input
                 id="profile-image-upload"
@@ -119,21 +119,21 @@ export default function ProfilePage() {
                 className="hidden"
               />
             </div>
-            <h3 className="text-lg font-semibold text-foreground">{user.name}</h3>
-            <p className="text-sm text-muted-foreground">{user.email}</p>
+            <h3 className="text-base sm:text-lg font-semibold text-white">{user.name}</h3>
+            <p className="text-xs sm:text-sm text-gray-300">{user.email}</p>
           </div>
         </div>
 
         {/* Profile Information Section */}
         <div className="lg:col-span-2">
-          <div className="bg-card rounded-lg border">
+          <div className="bg-gray-800 rounded-lg border border-gray-700">
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-xl font-semibold text-foreground">Personal Information</h2>
+            <div className="flex items-center justify-between p-6 border-b border-gray-700">
+              <h2 className="text-xl font-semibold text-white">Personal Information</h2>
               {!isEditing ? (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                  className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
                 >
                   Edit Profile
                 </button>
@@ -141,14 +141,14 @@ export default function ProfilePage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="px-4 py-2 bg-muted text-muted-foreground rounded-md hover:bg-muted/80 transition-colors"
+                    className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSave}
                     disabled={isLoading}
-                    className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors flex items-center gap-2 disabled:opacity-50"
+                    className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors flex items-center gap-2 disabled:opacity-50"
                   >
                     {isLoading ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -166,7 +166,7 @@ export default function ProfilePage() {
               {/* Basic Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     <User className="h-4 w-4 inline mr-2" />
                     Full Name
                   </label>
@@ -176,12 +176,12 @@ export default function ProfilePage() {
                     value={formData.name}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 bg-background text-foreground border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     <Mail className="h-4 w-4 inline mr-2" />
                     Email Address
                   </label>
@@ -191,12 +191,12 @@ export default function ProfilePage() {
                     value={formData.email}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 bg-background text-foreground border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     <Phone className="h-4 w-4 inline mr-2" />
                     Phone Number
                   </label>
@@ -206,12 +206,12 @@ export default function ProfilePage() {
                     value={formData.phone}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 bg-background text-foreground border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Company
                   </label>
                   <input
@@ -220,20 +220,20 @@ export default function ProfilePage() {
                     value={formData.company}
                     onChange={handleInputChange}
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 bg-background text-foreground border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
               </div>
 
               {/* Address Information */}
               <div>
-                <h3 className="text-lg font-medium text-foreground mb-4 flex items-center">
+                <h3 className="text-lg font-medium text-white mb-4 flex items-center">
                   <MapPin className="h-5 w-5 mr-2" />
                   Address Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-foreground mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       Street Address
                     </label>
                     <input
@@ -242,12 +242,12 @@ export default function ProfilePage() {
                       value={formData.address}
                       onChange={handleInputChange}
                       disabled={!isEditing}
-                      className="w-full px-3 py-2 bg-background text-foreground border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       City
                     </label>
                     <input
@@ -256,12 +256,12 @@ export default function ProfilePage() {
                       value={formData.city}
                       onChange={handleInputChange}
                       disabled={!isEditing}
-                      className="w-full px-3 py-2 bg-background text-foreground border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       State
                     </label>
                     <input
@@ -270,12 +270,12 @@ export default function ProfilePage() {
                       value={formData.state}
                       onChange={handleInputChange}
                       disabled={!isEditing}
-                      className="w-full px-3 py-2 bg-background text-foreground border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
+                    <label className="block text-sm font-medium text-white mb-2">
                       ZIP Code
                     </label>
                     <input
@@ -284,7 +284,7 @@ export default function ProfilePage() {
                       value={formData.zipCode}
                       onChange={handleInputChange}
                       disabled={!isEditing}
-                      className="w-full px-3 py-2 bg-background text-foreground border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
@@ -292,19 +292,19 @@ export default function ProfilePage() {
 
               {/* Account Statistics */}
               <div>
-                <h3 className="text-lg font-medium text-foreground mb-4">Account Information</h3>
+                <h3 className="text-lg font-medium text-white mb-4">Account Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-muted/50 rounded-lg p-4 text-center">
-                    <div className="text-2xl font-bold text-primary">0</div>
-                    <div className="text-sm text-muted-foreground">Total Contacts</div>
+                  <div className="bg-gray-700 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-orange-500">0</div>
+                    <div className="text-sm text-gray-300">Total Contacts</div>
                   </div>
-                  <div className="bg-muted/50 rounded-lg p-4 text-center">
-                    <div className="text-2xl font-bold text-primary">0</div>
-                    <div className="text-sm text-muted-foreground">Active Jobs</div>
+                  <div className="bg-gray-700 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-orange-500">0</div>
+                    <div className="text-sm text-gray-300">Active Jobs</div>
                   </div>
-                  <div className="bg-muted/50 rounded-lg p-4 text-center">
-                    <div className="text-2xl font-bold text-primary">0</div>
-                    <div className="text-sm text-muted-foreground">Pending Tasks</div>
+                  <div className="bg-gray-700 rounded-lg p-4 text-center">
+                    <div className="text-2xl font-bold text-orange-500">0</div>
+                    <div className="text-sm text-gray-300">Pending Tasks</div>
                   </div>
                 </div>
               </div>
