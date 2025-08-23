@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Plus, Search, Phone, Mail, MapPin, Edit2 } from 'lucide-react'
 import { Contact } from '@/lib/db'
 import { ViewType } from '@/components/ui/view-toolbar'
+import { cn } from '@/lib/utils'
 
 interface ContactListProps {
   contacts: Contact[]

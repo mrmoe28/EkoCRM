@@ -43,7 +43,7 @@ export class PlaywrightAutoFixer {
         // Fix: Add alt text to images
         const images = document.querySelectorAll('img:not([alt])');
         images.forEach((img, index) => {
-          img.alt = 'Image ${index + 1}'; // TODO: Add descriptive alt text
+          img.alt = \`Image \${index + 1}\`; // TODO: Add descriptive alt text
         });
       `
     },

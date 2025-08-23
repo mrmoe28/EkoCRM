@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Plus, ChevronLeft, ChevronRight, Clock, MapPin, User } from 'lucide-react'
 import { Schedule } from '@/lib/db'
-import { formatDate, formatDateTime } from '@/lib/utils'
+import { formatDate, formatDateTime, cn } from '@/lib/utils'
 
 interface ScheduleCalendarProps {
   schedules: Schedule[]

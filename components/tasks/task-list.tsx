@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Plus, Search, CheckCircle2, Clock, Calendar, User } from 'lucide-react'
 import { Task } from '@/lib/db'
-import { formatDate } from '@/lib/utils'
+import { formatDate, cn } from '@/lib/utils'
 
 interface TaskListProps {
   tasks: Task[]

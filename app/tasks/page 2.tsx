@@ -25,15 +25,27 @@ export default function TasksPage() {
     if (editingTask) {
       setTasks(prev => prev.map(t => 
         t.id === editingTask.id 
-          ? { ...t, ...taskData, updatedAt: new Date().toISOString() }
+          ? { ...t, ...taskData, updatedAt: new Date() }
           : t
       ))
     } else {
       const newTask: Task = {
-        ...taskData,
         id: Date.now(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        userId: taskData.userId || null,
+        title: taskData.title,
+        description: taskData.description || null,
+        jobId: taskData.jobId || null,
+        contactId: taskData.contactId || null,
+        assignedTo: taskData.assignedTo || null,
+        status: taskData.status || 'pending',
+        priority: taskData.priority || 'medium',
+        dueDate: taskData.dueDate || null,
+        completedDate: taskData.completedDate || null,
+        estimatedHours: taskData.estimatedHours || null,
+        actualHours: taskData.actualHours || null,
+        notes: taskData.notes || null,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
       setTasks(prev => [newTask, ...prev])
     }
@@ -53,7 +65,7 @@ export default function TasksPage() {
   const handleCompleteTask = (taskId: number) => {
     setTasks(prev => prev.map(t => 
       t.id === taskId 
-        ? { ...t, status: 'completed', completedDate: new Date().toISOString(), updatedAt: new Date().toISOString() }
+        ? { ...t, status: 'completed', completedDate: new Date().toISOString(), updatedAt: new Date() }
         : t
     ))
   }

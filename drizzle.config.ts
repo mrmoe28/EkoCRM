@@ -11,10 +11,8 @@ export default defineConfig({
     url: process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.POSTGRES_PRISMA_URL || '',
   },
   introspect: {
-    casing: 'snake_case',
+    casing: 'camel',
   },
-  // Fix TypeScript target environment issue
-  tsconfig: 'tsconfig.json',
   verbose: true,
   strict: true,
 })

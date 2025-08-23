@@ -84,15 +84,28 @@ export default function SchedulePage() {
     if (editingSchedule) {
       setSchedules(prev => prev.map(s => 
         s.id === editingSchedule.id 
-          ? { ...s, ...scheduleData, updatedAt: new Date().toISOString() }
+          ? { ...s, ...scheduleData, updatedAt: new Date() }
           : s
       ))
     } else {
       const newSchedule: Schedule = {
-        ...scheduleData,
         id: Date.now(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        userId: null,
+        title: scheduleData.title,
+        description: scheduleData.description || null,
+        jobId: scheduleData.jobId || null,
+        taskId: scheduleData.taskId || null,
+        contactId: scheduleData.contactId || null,
+        assignedTo: scheduleData.assignedTo || null,
+        startTime: scheduleData.startTime,
+        endTime: scheduleData.endTime,
+        date: scheduleData.date,
+        location: scheduleData.location || null,
+        status: scheduleData.status || 'scheduled',
+        type: scheduleData.type || 'site_visit',
+        notes: scheduleData.notes || null,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
       setSchedules(prev => [newSchedule, ...prev])
     }

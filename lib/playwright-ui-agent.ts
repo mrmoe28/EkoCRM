@@ -430,6 +430,14 @@ export class PlaywrightUIAgent {
     console.log(`\n📁 Full report saved to: ${reportPath}`);
   }
 
+  async executePageAction(action: (page: Page) => Promise<void>): Promise<void> {
+    if (this.page) {
+      await action(this.page);
+    } else {
+      console.warn('Page not initialized. Call initialize() first.');
+    }
+  }
+
   async cleanup(): Promise<void> {
     if (this.page) await this.page.close();
     if (this.browser) await this.browser.close();
@@ -461,8 +469,8 @@ export async function runUIAgent() {
     // Reproduce specific error states
     await agent.reproduceErrorState([
       async () => agent.navigateAndTest('/contacts'),
-      async () => agent.page?.click('button:has-text("Add Contact")'),
-      async () => agent.page?.click('button:has-text("Save")'), // Try to save empty form
+      async () => agent.executePageAction(async (page) => page.click('button:has-text("Add Contact")')),
+      async () => agent.executePageAction(async (page) => page.click('button:has-text("Save")')), // Try to save empty form
     ]);
     
     // Generate final report

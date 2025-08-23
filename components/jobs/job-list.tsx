@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Plus, Search, MapPin, DollarSign, Calendar, Edit2 } from 'lucide-react'
 import { Job } from '@/lib/db'
-import { formatCurrency, formatDate } from '@/lib/utils'
+import { formatCurrency, formatDate, cn } from '@/lib/utils'
 import { ViewType } from '@/components/ui/view-toolbar'
 
 interface JobListProps {
