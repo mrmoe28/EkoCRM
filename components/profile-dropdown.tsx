@@ -103,7 +103,7 @@ export function ProfileDropdown() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-72 rounded-xl bg-card border border-border shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="absolute right-0 mt-2 w-72 rounded-xl bg-gray-800 border border-border shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
           {/* Profile Header */}
           <div className="p-4 border-b border-border bg-muted/30">
             <div className="flex items-center gap-3">
