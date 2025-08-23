@@ -71,10 +71,10 @@ export function ProfileDropdown() {
   const menuItems = [
     { icon: User, label: 'My Profile', onClick: () => window.location.href = '/profile' },
     { icon: Palette, label: 'Appearance', onClick: () => window.location.href = '/themes' },
-    { icon: Bell, label: 'Notifications', onClick: () => console.log('Notifications') },
-    { icon: Shield, label: 'Privacy & Security', onClick: () => console.log('Security') },
+    { icon: Bell, label: 'Notifications', onClick: () => window.location.href = '/notifications' },
+    { icon: Shield, label: 'Privacy & Security', onClick: () => window.location.href = '/privacy-security' },
     { icon: Settings, label: 'Settings', onClick: () => console.log('Settings') },
-    { icon: HelpCircle, label: 'Help & Support', onClick: () => console.log('Help') },
+    { icon: HelpCircle, label: 'Help & Support', onClick: () => window.location.href = '/help-support' },
     { divider: true },
     { icon: LogOut, label: 'Sign Out', onClick: handleLogout, className: 'text-red-600 hover:text-red-700' },
   ]
